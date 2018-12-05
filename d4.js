@@ -1142,11 +1142,14 @@ const stat = sorted.reduce((acc, data) => {
   return acc;
 }, {});
 
-let sleppiest = { total: 0, name: '', max: -1, mins: -1 };
+let sleepiest = { total: 0, name: '', max: -1, mins: -1 };
+let love = { name: '', max: -1, mins: -1 };
 Object.keys(stat).map(key => {
   let sum = 0;
   let max = -1;
   let mins = -1;
+  let loveMax = -1;
+  let loveMins = -1;
   const data = stat[key];
   for (let i = 0; i < 60; i++) {
     const num = isNaN(Number(data[i])) ? 0 : Number(data[i]);
@@ -1155,20 +1158,35 @@ Object.keys(stat).map(key => {
     if (num > max) {
       max = num;
       mins = i;
+      loveMax = num;
+      loveMins = i;
     }
   }
-  if (sum > sleppiest.total) {
-    sleppiest = {
+  if (sum > sleepiest.total) {
+    sleepiest = {
       total: sum,
       name: key,
       max,
-      mins
+      mins,
+    }
+  }
+  if (loveMax > love.max) {
+    love = {
+      name: key,
+      max: loveMax,
+      mins: loveMins
     }
   }
   // console.log(`${key} sleep for ${sum} mins`);
 })
 
-console.log(sleppiest);
-// stat['Guard#1723'].map((s, i) => {
+console.log('------------------------------');
+console.log(sleepiest);
+console.log(love);
+console.log('------------------------------');
+console.log(`part 1 Ans: ${Number(sleepiest.name.split("#")[1]) * sleepiest.mins}`);
+console.log(`part 2 Ans: ${Number(love.name.split("#")[1]) * love.mins}`);
+// stat['Guard#827'].map((s, i) => {
 //   console.log(`min ${i} sum ${s}`);
 // })
+// console.log(stat['Guard#827']);
