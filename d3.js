@@ -1379,6 +1379,7 @@ const processed = list.map(data => {
   const pad = split[2].split(",");
   const size = split[3].split("x");
   return {
+    id: split[0],
     left: Number(pad[0]),
     top: Number(pad[1].split(':')[0]),
     width: Number(size[0]),
@@ -1404,6 +1405,8 @@ const common = processed.reduce((acc, data) => {
   return acc;
 }, fabric);
 
+
+//## for part 1
 for (let i = 0; i < common.length; i++) {
   for (let j = 0; j < common[i].length; j++) {
     if (common[i][j] > 1) {
@@ -1412,4 +1415,22 @@ for (let i = 0; i < common.length; i++) {
   }
 }
 
-console.log(sum);
+//## for part 2
+
+processed.map(data => {
+  let unique = true;
+  const left = data.left;
+  const top = data.top;
+  const width = left + data.width;
+  const height = top + data.height;
+  for (let i = left; i < width; i++) {
+    for (let j = top; j < height; j++) {
+      if (common[i][j] > 1) {
+        unique = false;
+      }
+    }
+  }
+  if (unique) console.log(data.id)
+});
+
+// console.log(sum);
